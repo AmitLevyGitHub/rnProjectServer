@@ -4,7 +4,6 @@ const Event = require("../models/event");
 const moment = require("moment");
 
 exports.getEventsForDog = (req, res) => {
-  //change to search for Dog nickName in events collection
   const nickName = req.query.nickName;
 
   Event.find({
@@ -18,10 +17,24 @@ exports.getEventsForDog = (req, res) => {
     });
 };
 
+exports.getEventsForDogForCurrentDate = (req, res) => {
+  const nickName = req.query.nickName;
+  const date = moment().format("YYYY-MM-DD");
+  Event.find({
+    nickName: nickName,
+    Date: date
+  })
+    .then(result => {
+      return res.send(result);
+    })
+    .catch(err => {
+      return res.send(errobj(500, err));
+    });
+};
+
 exports.updateTotalKmWalkedinEvent = (req, res) => {
   const { nickName, dataToUpdate } = req.query;
-  const date = moment().format();
-  console.log(typeof date);
+  const date = moment().format("YYYY-MM-DD");
   Event.findOneAndUpdate(
     {
       nickName: nickName,

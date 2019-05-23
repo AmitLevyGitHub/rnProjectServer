@@ -28,5 +28,9 @@ app.put("/updateTotalKmWalkedinEvent", eventCtl.updateTotalKmWalkedinEvent);
 app.put("/updatePoopsinEvent", eventCtl.updatePoopsinEvent);
 app.put("/updateSnacksinEvent", eventCtl.updateSnacksinEvent);
 app.put("/updateMealsinEvent", eventCtl.updateMealsinEvent);
+app.get(
+  "/getEventsForDogForCurrentDate",
+  eventCtl.getEventsForDogForCurrentDate
+);
 
 app.listen(port, () => console.log(`listening on port ${port}`));
