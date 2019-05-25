@@ -8,6 +8,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.set("port", port);
 app.use("/", express.static("./public")); // for API
+app.use(express.urlencoded());
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -32,5 +34,7 @@ app.get(
   "/getEventsForDogForCurrentDate",
   eventCtl.getEventsForDogForCurrentDate
 );
+app.post("/ownersSignUp", ownerCtl.ownersSignUp);
+app.post("/dogsSignUp", dogCtl.dogsSignUp);
 
 app.listen(port, () => console.log(`listening on port ${port}`));

@@ -45,3 +45,33 @@ exports.addOwnerToDog = (req, res) => {
 
   return res.json("Dog added to Owner");
 };
+
+exports.ownersSignUp = (req, res) => {
+  const { user } = req.body;
+
+  Owner.find({
+    Email: user.email
+  })
+    .then(result => {
+      if (result.length !== 0)
+        return res.send(
+          errobj(500, "User with this email address allready exists")
+        );
+      else {
+        Owner.create({
+          fullName: user.fullName,
+          Email: user.email,
+          Password: user.password
+        })
+          .then(() => {
+            return res.send("User created successfully");
+          })
+          .catch(err => {
+            return res.send(errobj(500, err));
+          });
+      }
+    })
+    .catch(err => {
+      return res.send(errobj(500, err));
+    });
+};
