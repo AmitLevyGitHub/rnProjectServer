@@ -42,9 +42,13 @@ exports.updateTotalKmWalkedinEvent = (req, res) => {
     },
     { totalKmWalked: dataToUpdate },
     { upsert: true, new: true }
-  ).then(res => {
-    console.log(res);
-  });
+  )
+    .then(result => {
+      return res.send(result);
+    })
+    .catch(err => {
+      return res.send(errobj(500, err));
+    });
 };
 
 exports.updatePoopsinEvent = (req, res) => {
@@ -57,9 +61,13 @@ exports.updatePoopsinEvent = (req, res) => {
     },
     { Poops: dataToUpdate },
     { upsert: true, new: true }
-  ).then(res => {
-    console.log(res);
-  });
+  )
+    .then(result => {
+      return res.send(result);
+    })
+    .catch(err => {
+      return res.send(errobj(500, err));
+    });
 };
 
 exports.updateSnacksinEvent = (req, res) => {
@@ -72,9 +80,13 @@ exports.updateSnacksinEvent = (req, res) => {
     },
     { Snacks: dataToUpdate },
     { upsert: true, new: true }
-  ).then(res => {
-    console.log(res);
-  });
+  )
+    .then(result => {
+      return res.send(result);
+    })
+    .catch(err => {
+      return res.send(errobj(500, err));
+    });
 };
 
 exports.updateMealsinEvent = (req, res) => {
@@ -87,7 +99,11 @@ exports.updateMealsinEvent = (req, res) => {
     },
     { Meals: dataToUpdate },
     { upsert: true, new: true }
-  ).then(res => {
-    console.log(res);
-  });
+  )
+    .then(result => {
+      return res.send(result);
+    })
+    .catch(err => {
+      return res.send(errobj(500, err));
+    });
 };
