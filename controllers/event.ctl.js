@@ -17,33 +17,6 @@ exports.getEventsForDog = (req, res) => {
     });
 };
 
-exports.getEventsForDogForCurrentDate = (req, res) => {
-  const nickName = req.query.nickName;
-  const date = moment().format("YYYY-MM-DD");
-  Event.find({
-    nickName: nickName,
-    Date: date
-  })
-    .then(result => {
-      let numOfWalks = result[0].Trips.length;
-      let sunOfKm = 0;
-      result[0].Trips.map(arr => {
-        if (arr[0].distance !== undefined) {
-          sunOfKm += Number(arr[0].distance);
-        }
-      });
-      resultToSend = {
-        ...result,
-        numOfWalks: numOfWalks,
-        sunOfKm: sunOfKm
-      };
-      return res.send(resultToSend);
-    })
-    .catch(err => {
-      return res.send(errobj(500, err));
-    });
-};
-
 exports.updateTotalKmWalkedinEvent = (req, res) => {
   const { nickName, dataToUpdate } = req.query;
   const date = moment().format("YYYY-MM-DD");
@@ -113,6 +86,7 @@ exports.updateMealsinEvent = (req, res) => {
     { upsert: true, new: true }
   )
     .then(result => {
+      console.log(result);
       return res.send(result);
     })
     .catch(err => {
@@ -132,6 +106,8 @@ exports.saveDogTrip = (req, res) => {
       latitude: coord.coordinate.latitude
     });
   });
+  console.log(coordsArr);
+
   const date = moment().format("YYYY-MM-DD");
   Event.findOneAndUpdate(
     {
@@ -145,6 +121,33 @@ exports.saveDogTrip = (req, res) => {
   )
     .then(result => {
       return res.send(result);
+    })
+    .catch(err => {
+      return res.send(errobj(500, err));
+    });
+};
+
+exports.getEventsForDogForCurrentDate = (req, res) => {
+  const nickName = req.query.nickName;
+  const date = moment().format("YYYY-MM-DD");
+  Event.find({
+    nickName: nickName,
+    Date: date
+  })
+    .then(result => {
+      let numOfWalks = result[0].Trips.length;
+      let sunOfKm = 0;
+      result[0].Trips.map(arr => {
+        if (arr[0].distance !== undefined) {
+          sunOfKm += Number(arr[0].distance);
+        }
+      });
+      resultToSend = {
+        ...result,
+        numOfWalks: numOfWalks,
+        sunOfKm: sunOfKm
+      };
+      return res.send(resultToSend);
     })
     .catch(err => {
       return res.send(errobj(500, err));
