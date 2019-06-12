@@ -25,7 +25,19 @@ exports.getEventsForDogForCurrentDate = (req, res) => {
     Date: date
   })
     .then(result => {
-      return res.send(result);
+      let numOfWalks = result[0].Trips.length;
+      let sunOfKm = 0;
+      result[0].Trips.map(arr => {
+        if (arr[0].distance !== undefined) {
+          sunOfKm += Number(arr[0].distance);
+        }
+      });
+      resultToSend = {
+        ...result,
+        numOfWalks: numOfWalks,
+        sunOfKm: sunOfKm
+      };
+      return res.send(resultToSend);
     })
     .catch(err => {
       return res.send(errobj(500, err));
