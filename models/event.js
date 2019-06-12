@@ -6,7 +6,8 @@ const event = new mongoose.Schema({
   totalKmWalked: Number,
   Poops: Number, //check if needed
   Snacks: Number,
-  Meals: Number
+  Meals: Number,
+  Trips: [{ type: Object }]
   /*walkMaps: [] */
 });
 

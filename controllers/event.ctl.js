@@ -107,3 +107,34 @@ exports.updateMealsinEvent = (req, res) => {
       return res.send(errobj(500, err));
     });
 };
+
+exports.saveDogTrip = (req, res) => {
+  let coords = JSON.parse(req.query.coords);
+  let distance = req.query.distance;
+  let nickName = req.query.nickName;
+  let coordsArr = [];
+  coordsArr.push({ distance: distance });
+  coords.map(coord => {
+    coordsArr.push({
+      longitude: coord.coordinate.longitude,
+      latitude: coord.coordinate.latitude
+    });
+  });
+  const date = moment().format("YYYY-MM-DD");
+  Event.findOneAndUpdate(
+    {
+      nickName: nickName,
+      Date: date
+    },
+    {
+      $push: { Trips: [coordsArr] }
+    },
+    { upsert: true, new: true }
+  )
+    .then(result => {
+      return res.send(result);
+    })
+    .catch(err => {
+      return res.send(errobj(500, err));
+    });
+};

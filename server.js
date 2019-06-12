@@ -36,5 +36,6 @@ app.get(
 );
 app.post("/ownersSignUp", ownerCtl.ownersSignUp);
 app.post("/dogsSignUp", dogCtl.dogsSignUp);
+app.get("/saveDogTrip", eventCtl.saveDogTrip);
 
 app.listen(port, () => console.log(`listening on port ${port}`));
